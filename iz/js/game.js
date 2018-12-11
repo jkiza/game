@@ -72,7 +72,6 @@ class Menu extends Phaser.Scene {
         this.load.image('background', './assets/background.png');
         this.load.image('player', './assets/player.png');
         this.load.image('bell', './assets/bell.png');
-        this.load.image('ground', './assets/ground.png');
         this.load.image('pause', './assets/mute.png');
         this.load.image('black', './assets/plain-black-background.jpg');
         this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
@@ -91,12 +90,12 @@ class Menu extends Phaser.Scene {
         let button2 = this.add.sprite(62, 440, 'options');
         button2.setOrigin(0, 0);
         button2.setInteractive();
-        //button.on('pointerdown', () => this.scene.start('Game'));
+        button2.on('pointerdown', () => this.scene.start('Options'));
         
         let button3 = this.add.sprite(62, 640, 'about');
         button3.setOrigin(0, 0);
         button3.setInteractive();
-        //button.on('pointerdown', () => this.scene.start('Game'));
+        button3.on('pointerdown', () => this.scene.start('Help'));
 
     }
 
@@ -111,7 +110,7 @@ var w = 600,
     h = 1024;
 var s;
 var music;
-var score = 0;
+var score = 10000;
 var scoreText;
 var gameOver;
 
@@ -120,8 +119,6 @@ gameScene.create = function () {
 
     // create bg sprite
     this.bg = this.add.tileSprite(360, 512, 600, 1024, 'background');
-    
-    this.ground = this.add.sprite(100, 920, 'ground');
 
     // create the player
     this.player = this.physics.add.sprite(290, 920, 'player');
@@ -150,6 +147,7 @@ gameScene.create = function () {
     this.bells.create(Phaser.Math.Between(470, 530), -650);
     this.bells.create(Phaser.Math.Between(270, 330), -900);
     this.bells.create(Phaser.Math.Between(70, 130), -1100);
+    this.bells.create(Phaser.Math.Between(270, 330), -1300);
     this.bells.create(Phaser.Math.Between(470, 530), -1450);
     this.bells.create(Phaser.Math.Between(270, 330), -1700);
     this.bells.create(Phaser.Math.Between(470, 530), -1900);
@@ -165,7 +163,7 @@ gameScene.create = function () {
 
     });
 
-    scoreText = this.add.text(25, 20, 'Score: 0', { fontSize: '32px', fill: '#ffffff' });
+    scoreText = this.add.text(25, 20, 'Score: 10000', { fontSize: '32px', fill: '#ffffff' });
     
     let button4 = this.add.sprite(526, 20, 'pause');
     button4.setScale(0.1);
@@ -218,8 +216,14 @@ gameScene.update = function () {
     this.bells.allowGravity = false;
     
     if (this.player.y > 950) {
-        this.scene.start(GameOver);
         music.stop();
+        this.scene.start(GameOver);
+        
+    }
+    
+    if (this.player.y < 50) {
+        music.stop();
+        this.scene.start(GameOver);
         
     }
 
@@ -235,13 +239,62 @@ gameScene.jumpBell = function () {
     
     this.player.body.allowGravity = true;
     
-    score += 10;
+    score -= 10;
     
     scoreText.setText('Score: ' + score);
 
 }
 
-var gameOver;
+class Options extends Phaser.Scene {
+
+    constructor() {
+        
+        super('Options');
+
+        this.active;
+        this.currentScene;
+
+    }   
+    
+    preload() {
+        
+    }
+
+    create() {
+        
+        this.bg = this.add.sprite(0, 0, 'black');
+        let button5 = this.add.sprite(250, 500, 'mute');
+        button5.setScale(0.1);
+        button5.setOrigin(0, 0);
+        button5.setInteractive();
+        button5.on('pointerdown', () => music.destroy());
+        
+    }
+
+}
+
+class Help extends Phaser.Scene {
+
+    constructor() {
+        
+        super('Help');
+
+        this.active;
+        this.currentScene;
+
+    }   
+    
+    preload() {  
+        
+    }
+
+    create() {
+        
+        this.bg = this.add.sprite(0, 0, 'black');
+        
+    }
+
+}
 
 class GameOver extends Phaser.Scene {
 
@@ -262,7 +315,28 @@ class GameOver extends Phaser.Scene {
         
         this.bg = this.add.sprite(0, 0, 'black');
         
-        gameOver = this.add.text(100, 450, 'Game over', { fontSize: '64px', fill: '#ffffff' });
+    }
+
+}
+
+class Win extends Phaser.Scene {
+
+    constructor() {
+        
+        super('Win');
+
+        this.active;
+        this.currentScene;
+
+    }   
+    
+    preload() {  
+        
+    }
+
+    create() {
+        
+        this.bg = this.add.sprite(0, 0, 'black');
         
     }
 
