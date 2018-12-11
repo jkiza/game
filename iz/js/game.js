@@ -73,6 +73,8 @@ class Menu extends Phaser.Scene {
         this.load.image('player', './assets/player.png');
         this.load.image('bell', './assets/bell.png');
         this.load.image('ground', './assets/ground.png');
+        this.load.image('pause', './assets/mute.png');
+        this.load.image('black', './assets/plain-black-background.jpg');
         this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
 
     }
@@ -111,12 +113,13 @@ var s;
 var music;
 var score = 0;
 var scoreText;
+var gameOver;
 
 // called once after the preload ends
 gameScene.create = function () {
 
     // create bg sprite
-    this.bg = this.add.tileSprite(400, 512, 600, 1024, 'background');
+    this.bg = this.add.tileSprite(360, 512, 600, 1024, 'background');
     
     this.ground = this.add.sprite(100, 920, 'ground');
 
@@ -140,12 +143,19 @@ gameScene.create = function () {
     this.player.body.allowGravity = false;
     
     let randomV = Phaser.Math.Between(-100, -300);
-    this.bells.create(Phaser.Math.Between(80, 120), -200);
-    this.bells.create(Phaser.Math.Between(480, 520), 0);
-    this.bells.create(Phaser.Math.Between(80, 120), -600);
-    this.bells.create(Phaser.Math.Between(480, 520), -400);
-    this.bells.create(Phaser.Math.Between(80, 120), -1000);
-    this.bells.create(Phaser.Math.Between(480, 520), -800);
+    this.bells.create(Phaser.Math.Between(80, 120), 0);
+    this.bells.create(295, 300);
+    this.bells.create(Phaser.Math.Between(470, 530), -200);
+    this.bells.create(Phaser.Math.Between(70, 130), -450);
+    this.bells.create(Phaser.Math.Between(470, 530), -650);
+    this.bells.create(Phaser.Math.Between(270, 330), -900);
+    this.bells.create(Phaser.Math.Between(70, 130), -1100);
+    this.bells.create(Phaser.Math.Between(470, 530), -1450);
+    this.bells.create(Phaser.Math.Between(70, 130), -1700);
+    this.bells.create(Phaser.Math.Between(470, 530), -1900);
+    this.bells.create(Phaser.Math.Between(70, 130), -2100);
+    this.bells.create(Phaser.Math.Between(470, 530), -2350);
+    this.bells.create(Phaser.Math.Between(470, 530), -2550);
 
 
     this.bells.children.iterate(function (child) {
@@ -155,7 +165,14 @@ gameScene.create = function () {
 
     });
 
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#ffffff' });
+    scoreText = this.add.text(25, 20, 'Score: 0', { fontSize: '32px', fill: '#ffffff' });
+    
+    let button4 = this.add.sprite(526, 20, 'pause');
+    button4.setScale(0.1);
+    button4.setOrigin(0, 0);
+    button4.setInteractive();
+    
+    button4.on('pointerdown', () => music.stop());
 
     music = this.sound.add('winter');
 
@@ -169,7 +186,7 @@ gameScene.update = function () {
     
     console.log(this.input.activePointer.x);
 
-    this.bg.tilePositionY -= 1;
+    this.bg.tilePositionY -= 3;
 
     if (this.input.activePointer.x > this.player.x) {
         this.player.x += 6;
@@ -187,17 +204,24 @@ gameScene.update = function () {
 
     let bells = this.bells.getChildren();
     let numBells = bells.length;
-    let bellSpeed = 2;
+    
+    let bellSpeed = 4;
 
     for (let i = 0; i < numBells; i++) {
         let bellY = bells[i].y;
-        if (bellY > 1210) {
+        if (bellY > 3000) {
             bells[i].y = -30;
         }
         bells[i].y += bellSpeed;
     }
 
     this.bells.allowGravity = false;
+    
+    if (this.player.y > 950) {
+        this.scene.start(GameOver);
+        music.stop();
+        
+    }
 
 };
 
@@ -212,9 +236,12 @@ gameScene.jumpBell = function () {
     this.player.body.allowGravity = true;
     
     score += 10;
+    
     scoreText.setText('Score: ' + score);
 
 }
+
+var gameOver;
 
 class GameOver extends Phaser.Scene {
 
@@ -225,17 +252,18 @@ class GameOver extends Phaser.Scene {
         this.active;
         this.currentScene;
 
-    }
+    }   
     
-    preload() {
+    preload() {  
         
-
     }
 
     create() {
         
-        scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#ffffff' });
-
+        this.bg = this.add.sprite(0, 0, 'black');
+        
+        gameOver = this.add.text(100, 450, 'Game over', { fontSize: '64px', fill: '#ffffff' });
+        
     }
 
 }
@@ -250,9 +278,9 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: {
-                y: 600
+                y: 800
             },
-            debug: true
+            debug: false
         }
     },
     scene: [Menu, gameScene]
