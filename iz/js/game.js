@@ -151,11 +151,11 @@ gameScene.create = function () {
     this.bells.create(Phaser.Math.Between(270, 330), -900);
     this.bells.create(Phaser.Math.Between(70, 130), -1100);
     this.bells.create(Phaser.Math.Between(470, 530), -1450);
-    this.bells.create(Phaser.Math.Between(70, 130), -1700);
+    this.bells.create(Phaser.Math.Between(270, 330), -1700);
     this.bells.create(Phaser.Math.Between(470, 530), -1900);
     this.bells.create(Phaser.Math.Between(70, 130), -2100);
     this.bells.create(Phaser.Math.Between(470, 530), -2350);
-    this.bells.create(Phaser.Math.Between(470, 530), -2550);
+    this.bells.create(Phaser.Math.Between(70, 130), -2550);
 
 
     this.bells.children.iterate(function (child) {
