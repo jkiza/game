@@ -219,6 +219,14 @@ gameScene.create = function () {
         font: '32px monospace',
         fill: '#ffffff'
     });
+    
+    var mute = this.add.text(485, 1000, 'Mute', {
+        font: '32px monospace',
+        fill: '#ffffff'
+    });
+    
+    pause.setInteractive();
+    mute.on('pointerdown', () => music.stop());
 
     pause.setInteractive();
     pause.on('pointerdown', () => music.stop());
@@ -296,7 +304,7 @@ pause.preload = function () {
     var height = this.cameras.main.height;
     var pauseText = this.make.text({
         x: width / 2,
-        y: height / 2 - 200,
+        y: height / 2 - 100,
         text: 'PAUSE',
         style: {
             font: '44px monospace',
@@ -310,18 +318,12 @@ pause.preload = function () {
 
 pause.create = function () {
 
-    let button1 = this.add.sprite(170, 640, 'menu');
+    let button1 = this.add.sprite(170, 570, 'menu');
     button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
     button1.on('pointerdown', () => music.stop());
     button1.on('pointerdown', () => this.scene.start('Menu'));
-    
-    let button2 = this.add.sprite(170, 500, 'play');
-    button2.setScale(0.5);
-    button2.setOrigin(0, 0);
-    button2.setInteractive();
-    button2.on('pointerdown', () => this.scene.resume('Game'));
 
 }
 
