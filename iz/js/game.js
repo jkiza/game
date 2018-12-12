@@ -47,7 +47,7 @@ class Menu extends Phaser.Scene {
         
         var title = this.make.text({
             x: width / 2,
-            y: height / 2 - 300,
+            y: height / 2 - 200,
             text: 'WINTER ESCAPE',
             style: {
                 font: '44px monospace',
@@ -92,17 +92,20 @@ class Menu extends Phaser.Scene {
 
     create() {    
 
-        let button1 = this.add.sprite(43, 280, 'play');
+        let button1 = this.add.sprite(60, 380, 'play');
+        button1.setScale(0.8);
         button1.setOrigin(0, 0);
         button1.setInteractive();
         button1.on('pointerdown', () => this.scene.start('Game'));
         
-        let button2 = this.add.sprite(43, 480, 'options');
+        let button2 = this.add.sprite(60, 580, 'options');
+        button1.setScale(0.8);
         button2.setOrigin(0, 0);
         button2.setInteractive();
         button2.on('pointerdown', () => this.scene.start('Options'));
         
-        let button3 = this.add.sprite(43, 680, 'help');
+        let button3 = this.add.sprite(60, 780, 'help');
+        button1.setScale(0.8);
         button3.setOrigin(0, 0);
         button3.setInteractive();
         button3.on('pointerdown', () => this.scene.start('Help'));
