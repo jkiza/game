@@ -17,13 +17,13 @@ class Menu extends Phaser.Scene {
         var progressBar = this.add.graphics();
         var progressBox = this.add.graphics();
         progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(138, 500, 320, 50);
+        progressBox.fillRect(138, 530, 320, 50);
 
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
         var loadingText = this.make.text({
             x: width / 2,
-            y: 470,
+            y: 500,
             text: 'Loading',
             style: {
                 font: '20px monospace',
@@ -35,7 +35,7 @@ class Menu extends Phaser.Scene {
 
         var percentText = this.make.text({
             x: width / 2,
-            y: 525,
+            y: 555,
             text: '0%',
             style: {
                 font: '18px monospace',
@@ -62,7 +62,7 @@ class Menu extends Phaser.Scene {
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0xffffff, 1);
-            progressBar.fillRect(148, 510, 300 * value, 30);
+            progressBar.fillRect(148, 540, 300 * value, 30);
 
         });
 
@@ -92,19 +92,19 @@ class Menu extends Phaser.Scene {
 
     create() {    
 
-        let button1 = this.add.sprite(170, 380, 'play');
+        let button1 = this.add.sprite(170, 390, 'play');
         button1.setScale(0.5);
         button1.setOrigin(0, 0);
         button1.setInteractive();
         button1.on('pointerdown', () => this.scene.start('Game'));
         
-        let button2 = this.add.sprite(170, 520, 'options');
+        let button2 = this.add.sprite(170, 530, 'options');
         button2.setScale(0.5);
         button2.setOrigin(0, 0);
         button2.setInteractive();
         button2.on('pointerdown', () => this.scene.start('Options'));
         
-        let button3 = this.add.sprite(170, 660, 'help');
+        let button3 = this.add.sprite(170, 670, 'help');
         button3.setScale(0.5);
         button3.setOrigin(0, 0);
         button3.setInteractive();
