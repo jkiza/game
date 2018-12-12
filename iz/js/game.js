@@ -1,10 +1,99 @@
 // create a new scene
 let gameScene = new Phaser.Scene('Game');
 
+let load = new Phaser.Scene('Load');
+
+load.preload = function () {
+
+    var progressBar = this.add.graphics();
+    var progressBox = this.add.graphics();
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRect(138, 560, 320, 50);
+
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var loadingText = this.make.text({
+        x: width / 2,
+        y: 530,
+        text: 'Loading',
+        style: {
+            font: '20px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    loadingText.setOrigin(0.5, 0.5);
+
+    var percentText = this.make.text({
+        x: width / 2,
+        y: 585,
+        text: '0%',
+        style: {
+            font: '18px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    percentText.setOrigin(0.5, 0.5);
+
+    var title = this.make.text({
+        x: width / 2,
+        y: height / 2 - 270,
+        text: 'WINTER ESCAPE',
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    title.setOrigin(0.5, 0.5);
+
+    this.load.on('progress', function (value) {
+        console.log(value);
+        percentText.setText(parseInt(value * 100) + '%');
+        progressBar.clear();
+        progressBar.fillStyle(0xffffff, 1);
+        progressBar.fillRect(148, 570, 300 * value, 30);
+
+    });
+
+    this.load.on('fileprogress', function (file) {
+        console.log(file.src);
+    });
+
+    this.load.on('complete', function () {
+        console.log('complete');
+        progressBar.destroy();
+        progressBox.destroy();
+        loadingText.destroy();
+        percentText.destroy();
+
+    });
+
+    this.load.image('menu', './assets/menu.gif');
+    this.load.image('play', './assets/play.gif');
+    this.load.image('options', './assets/options.gif');
+    this.load.image('mute', './assets/mute.gif');
+    this.load.image('help', './assets/help.gif');
+    this.load.image('background', './assets/background.gif');
+    this.load.image('player', './assets/player.png');
+    this.load.image('bell', './assets/bell.png');
+    this.load.image('pause', './assets/mute.png');
+    this.load.image('black', './assets/plain-black-background.jpg');
+    this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
+
+}
+
+load.update = function () {
+
+    this.scene.start('Menu');
+
+}
+
 class Menu extends Phaser.Scene {
-    
+
     constructor() {
-        
+
         super('Menu');
 
         this.active;
@@ -13,38 +102,10 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
-        
-        var progressBar = this.add.graphics();
-        var progressBox = this.add.graphics();
-        progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(138, 560, 320, 50);
 
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
-        var loadingText = this.make.text({
-            x: width / 2,
-            y: 530,
-            text: 'Loading',
-            style: {
-                font: '20px monospace',
-                fill: '#ffffff'
-            }
-        });
 
-        loadingText.setOrigin(0.5, 0.5);
-
-        var percentText = this.make.text({
-            x: width / 2,
-            y: 585,
-            text: '0%',
-            style: {
-                font: '18px monospace',
-                fill: '#ffffff'
-            }
-        });
-
-        percentText.setOrigin(0.5, 0.5);
-        
         var title = this.make.text({
             x: width / 2,
             y: height / 2 - 270,
@@ -54,56 +115,30 @@ class Menu extends Phaser.Scene {
                 fill: '#ffffff'
             }
         });
-        
+
         title.setOrigin(0.5, 0.5);
-
-        this.load.on('progress', function (value) {
-            console.log(value);
-            percentText.setText(parseInt(value * 100) + '%');
-            progressBar.clear();
-            progressBar.fillStyle(0xffffff, 1);
-            progressBar.fillRect(148, 570, 300 * value, 30);
-
-        });
-
-        this.load.on('fileprogress', function (file) {
-            console.log(file.src);
-        });
-
-        this.load.on('complete', function () {
-            console.log('complete');
-            progressBar.destroy();
-            progressBox.destroy();
-            loadingText.destroy();
-            percentText.destroy();
-        });
-        
-        this.load.image('play', './assets/play.gif');
-        this.load.image('options', './assets/options.gif');
-        this.load.image('help', './assets/help.gif');
-        this.load.image('background', './assets/background.gif');
-        this.load.image('player', './assets/player.png');
-        this.load.image('bell', './assets/bell.png');
-        this.load.image('pause', './assets/mute.png');
-        this.load.image('black', './assets/plain-black-background.jpg');
-        this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
 
     }
 
-    create() {    
+    create() {
+
+        music = this.sound.add('winter');
+
+        music.play();
 
         let button1 = this.add.sprite(170, 390, 'play');
         button1.setScale(0.5);
         button1.setOrigin(0, 0);
         button1.setInteractive();
+        button1.on('pointerdown', () => music.stop());
         button1.on('pointerdown', () => this.scene.start('Game'));
-        
+
         let button2 = this.add.sprite(170, 530, 'options');
         button2.setScale(0.5);
         button2.setOrigin(0, 0);
         button2.setInteractive();
         button2.on('pointerdown', () => this.scene.start('Options'));
-        
+
         let button3 = this.add.sprite(170, 670, 'help');
         button3.setScale(0.5);
         button3.setOrigin(0, 0);
@@ -125,7 +160,6 @@ var s;
 var music;
 var score = 10000;
 var scoreText;
-var gameOver;
 
 // called once after the preload ends
 gameScene.create = function () {
@@ -151,7 +185,7 @@ gameScene.create = function () {
     });
 
     this.player.body.allowGravity = false;
-    
+
     let randomV = Phaser.Math.Between(-100, -300);
     this.bells.create(Phaser.Math.Between(80, 120), 0);
     this.bells.create(295, 300);
@@ -176,14 +210,21 @@ gameScene.create = function () {
 
     });
 
-    scoreText = this.add.text(25, 20, 'Score: 10000', { fontSize: '32px', fill: '#ffffff' });
-    
-    let button4 = this.add.sprite(526, 20, 'pause');
-    button4.setScale(0.1);
-    button4.setOrigin(0, 0);
-    button4.setInteractive();
-    
-    button4.on('pointerdown', () => music.stop());
+    scoreText = this.add.text(25, 20, 'Score: 10000', {
+        font: '32px monospace',
+        fill: '#ffffff'
+    });
+
+    var pause = this.add.text(480, 20, 'Pause', {
+        font: '32px monospace',
+        fill: '#ffffff'
+    });
+
+    pause.setInteractive();
+    pause.on('pointerdown', () => this.scene.pause());
+    pause.on('pointerdown', () => this.scene.start('Pause'));
+
+    //button4.on('pointerdown', () => music.stop());
 
     music = this.sound.add('winter');
 
@@ -194,7 +235,7 @@ gameScene.create = function () {
 };
 
 gameScene.update = function () {
-    
+
     console.log(this.input.activePointer.x);
 
     this.bg.tilePositionY -= 3;
@@ -205,17 +246,9 @@ gameScene.update = function () {
         this.player.x -= 6;
     }
 
-    //if (this.input.activePointer.isDown) {
-
-    //console.log("is down");
-
-    //gameScene.physics.moveTo(this.player, 100, 850);
-
-    //}
-
     let bells = this.bells.getChildren();
     let numBells = bells.length;
-    
+
     let bellSpeed = 4;
 
     for (let i = 0; i < numBells; i++) {
@@ -227,131 +260,233 @@ gameScene.update = function () {
     }
 
     this.bells.allowGravity = false;
-    
+
     if (this.player.y > 950) {
         music.stop();
-        this.scene.start(GameOver);
-        
+        this.scene.start('Game Over');
+
     }
-    
+
     if (this.player.y < 50) {
         music.stop();
-        this.scene.start(GameOver);
-        
+        this.scene.start('Win');
+
     }
 
 };
 
 gameScene.jumpBell = function () {
-    
-    console.log("jump called");
-    console.log(this.player);
-    console.log(gameScene);
 
     gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 1000, 400);
-    
+
     this.player.body.allowGravity = true;
-    
+
     score -= 10;
-    
+
     scoreText.setText('Score: ' + score);
 
 }
 
-class Options extends Phaser.Scene {
+let pause = new Phaser.Scene('Pause');
 
-    constructor() {
-        
-        super('Options');
-
-        this.active;
-        this.currentScene;
-
-    }   
+pause.preload = function () {
     
-    preload() {
-        
-    }
-
-    create() {
-        
-        this.bg = this.add.sprite(0, 0, 'black');
-        let button5 = this.add.sprite(250, 500, 'mute');
-        button5.setScale(0.1);
-        button5.setOrigin(0, 0);
-        button5.setInteractive();
-        button5.on('pointerdown', () => music.destroy());
-        
-    }
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var pauseText = this.make.text({
+        x: width / 2,
+        y: height / 2 - 200,
+        text: 'PAUSE',
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
+    
+    pauseText.setOrigin(0.5, 0.5);
 
 }
 
-class Help extends Phaser.Scene {
+pause.create = function () {
 
-    constructor() {
-        
-        super('Help');
-
-        this.active;
-        this.currentScene;
-
-    }   
+    let button1 = this.add.sprite(170, 640, 'menu');
+    button1.setScale(0.5);
+    button1.setOrigin(0, 0);
+    button1.setInteractive();
+    button1.on('pointerdown', () => music.stop());
+    button1.on('pointerdown', () => this.scene.start('Menu'));
     
-    preload() {  
-        
-    }
-
-    create() {
-        
-        this.bg = this.add.sprite(0, 0, 'black');
-        
-    }
+    let button2 = this.add.sprite(170, 500, 'play');
+    button2.setScale(0.5);
+    button2.setOrigin(0, 0);
+    button2.setInteractive();
+    button2.on('pointerdown', () => this.scene.resume('Game'));
 
 }
 
-class GameOver extends Phaser.Scene {
+let options = new Phaser.Scene('Options');
 
-    constructor() {
-        
-        super('Game over');
-
-        this.active;
-        this.currentScene;
-
-    }   
+options.preload = function() {
     
-    preload() {  
-        
-    }
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var optionsText = this.make.text({
+        x: width / 2,
+        y: height / 2 - 200,
+        text: 'OPTIONS',
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
+    
+    optionsText.setOrigin(0.5, 0.5);
+}
 
-    create() {
-        
-        this.bg = this.add.sprite(0, 0, 'black');
-        
-    }
+options.create = function () {
+
+    let button = this.add.sprite(170, 500, 'mute');
+    button.setScale(0.5);
+    button.setOrigin(0, 0);
+    button.setInteractive();
+    button.on('pointerdown', () => music.destroy(true));
+
+    let button2 = this.add.sprite(170, 640, 'menu');
+    button2.setScale(0.5);
+    button2.setOrigin(0, 0);
+    button2.setInteractive();
+    button2.on('pointerdown', () => music.stop());
+    button2.on('pointerdown', () => this.scene.start('Menu'));
 
 }
 
-class Win extends Phaser.Scene {
+let help = new Phaser.Scene('Help');
 
-    constructor() {
-        
-        super('Win');
+help.preload = function () {
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var helpText = this.make.text({
+        x: width / 2,
+        y: height / 2 - 200,
+        text: 'HELP',
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
 
-        this.active;
-        this.currentScene;
+    helpText.setOrigin(0.5, 0.5);
+}
 
-    }   
-    
-    preload() {  
-        
-    }
+help.create = function () {
 
-    create() {
-        
-        this.bg = this.add.sprite(0, 0, 'black');
-        
-    }
+    let button2 = this.add.sprite(170, 640, 'menu');
+    button2.setScale(0.5);
+    button2.setOrigin(0, 0);
+    button2.setInteractive();
+    button2.on('pointerdown', () => music.stop());
+    button2.on('pointerdown', () => this.scene.start('Menu'));
+
+}
+
+
+
+let gameOver = new Phaser.Scene('Game Over');
+
+gameOver.preload = function () {
+
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+    var losing = this.make.text({
+
+        x: width / 2,
+        y: height / 2 - 200,
+        text: 'YOU LOST.',
+        style: {
+            font: '40px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    losing.setOrigin(0.5, 0.5);
+
+    var losing2 = this.make.text({
+
+        x: width / 2,
+        y: height / 2 - 150,
+        text: 'TRY AGAIN?',
+        style: {
+            font: '40px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    losing2.setOrigin(0.5, 0.5);
+
+}
+
+gameOver.create = function () {
+
+    let button1 = this.add.sprite(170, 500, 'play');
+    button1.setScale(0.5);
+    button1.setOrigin(0, 0);
+    button1.setInteractive();
+    button1.on('pointerdown', () => this.scene.start('Game'));
+
+    let button2 = this.add.sprite(170, 640, 'menu');
+    button2.setScale(0.5);
+    button2.setOrigin(0, 0);
+    button2.setInteractive();
+    button2.on('pointerdown', () => this.scene.start('Menu'));
+
+}
+
+let win = new Phaser.Scene('Win');
+
+win.preload = function () {
+
+    var width = this.cameras.main.width;
+    var height = this.cameras.main.height;
+
+    var winning = this.make.text({
+        x: width / 2,
+        y: height / 2 - 200,
+        text: 'YOU WON!',
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    winning.setOrigin(0.5, 0.5);
+
+    var winning2 = this.make.text({
+        x: width / 2,
+        y: height / 2 - 150,
+        text: 'PLAY AGAIN?',
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    winning2.setOrigin(0.5, 0.5);
+
+}
+
+win.create = function () {
+
+    let button1 = this.add.sprite(170, 500, 'play');
+    button1.setScale(0.5);
+    button1.setOrigin(0, 0);
+    button1.setInteractive();
+    button1.on('pointerdown', () => this.scene.start('Game'));
+
+    let button2 = this.add.sprite(170, 640, 'menu');
+    button2.setScale(0.5);
+    button2.setOrigin(0, 0);
+    button2.setInteractive();
+    button2.on('pointerdown', () => this.scene.start('Menu'));
 
 }
 
@@ -370,8 +505,55 @@ let config = {
             debug: false
         }
     },
-    scene: [Menu, gameScene]
+    scene: [load, Menu, options, help, gameScene, win, gameOver, pause]
 };
 
 // create a new game, pass the configuration
 let game = new Phaser.Game(config);
+
+//class Options extends Phaser.Scene {
+//
+//    constructor() {
+//
+//        super('Options');
+//
+//        this.active;
+//        this.currentScene;
+//
+//    }
+//
+//    preload() {
+//
+//        var width = this.cameras.main.width;
+//        var height = this.cameras.main.height;
+//        var optionsText = this.make.text({
+//            x: width / 2,
+//            y: height / 2 - 200,
+//            text: 'OPTIONS',
+//            style: {
+//                font: '44px monospace',
+//                fill: '#ffffff'
+//            }
+//        });
+//
+//        optionsText.setOrigin(0.5, 0.5);
+//
+//    }
+//
+//    create() {
+//
+//        let button = this.add.sprite(170, 500, 'mute');
+//        button.setScale(0.5);
+//        button.setOrigin(0, 0);
+//        button.setInteractive();
+//        button.on('pointerdown', () => music.destroy(true));
+//
+//        let button2 = this.add.sprite(170, 640, 'menu');
+//        button2.setScale(0.5);
+//        button2.setOrigin(0, 0);
+//        button2.setInteractive();
+//        button2.on('pointerdown', () => music.stop());
+//        button2.on('pointerdown', () => this.scene.start('Menu'));
+//
+//    }
+//}
