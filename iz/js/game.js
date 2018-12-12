@@ -304,7 +304,7 @@ pause.preload = function () {
     var height = this.cameras.main.height;
     var pauseText = this.make.text({
         x: width / 2,
-        y: height / 2 - 100,
+        y: height / 2 - 70,
         text: 'PAUSE',
         style: {
             font: '44px monospace',
@@ -318,7 +318,7 @@ pause.preload = function () {
 
 pause.create = function () {
 
-    let button1 = this.add.sprite(170, 570, 'menu');
+    let button1 = this.add.sprite(170, 540, 'menu');
     button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
