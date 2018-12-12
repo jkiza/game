@@ -92,20 +92,20 @@ class Menu extends Phaser.Scene {
 
     create() {    
 
-        let button1 = this.add.sprite(60, 380, 'play');
-        button1.setScale(0.8);
+        let button1 = this.add.sprite(160, 380, 'play');
+        button1.setScale(0.5);
         button1.setOrigin(0, 0);
         button1.setInteractive();
         button1.on('pointerdown', () => this.scene.start('Game'));
         
-        let button2 = this.add.sprite(60, 580, 'options');
-        button1.setScale(0.8);
+        let button2 = this.add.sprite(160, 580, 'options');
+        button2.setScale(0.5);
         button2.setOrigin(0, 0);
         button2.setInteractive();
         button2.on('pointerdown', () => this.scene.start('Options'));
         
-        let button3 = this.add.sprite(60, 780, 'help');
-        button1.setScale(0.8);
+        let button3 = this.add.sprite(160, 780, 'help');
+        button3.setScale(0.5);
         button3.setOrigin(0, 0);
         button3.setInteractive();
         button3.on('pointerdown', () => this.scene.start('Help'));
