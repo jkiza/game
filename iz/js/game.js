@@ -220,12 +220,12 @@ gameScene.create = function () {
         fill: '#ffffff'
     });
     
-    var mute = this.add.text(485, 1000, 'Mute', {
+    var mute = this.add.text(490, 990, 'Mute', {
         font: '32px monospace',
         fill: '#ffffff'
     });
     
-    pause.setInteractive();
+    mute.setInteractive();
     mute.on('pointerdown', () => music.stop());
 
     pause.setInteractive();
