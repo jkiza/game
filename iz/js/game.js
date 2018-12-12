@@ -2,7 +2,7 @@
 let gameScene = new Phaser.Scene('Game');
 
 class Menu extends Phaser.Scene {
-
+    
     constructor() {
         
         super('Menu');
@@ -17,13 +17,13 @@ class Menu extends Phaser.Scene {
         var progressBar = this.add.graphics();
         var progressBox = this.add.graphics();
         progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(138, 480, 320, 50);
+        progressBox.fillRect(138, 600, 320, 50);
 
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
         var loadingText = this.make.text({
             x: width / 2,
-            y: height / 2 - 50,
+            y: 570,
             text: 'Loading',
             style: {
                 font: '20px monospace',
@@ -35,7 +35,7 @@ class Menu extends Phaser.Scene {
 
         var percentText = this.make.text({
             x: width / 2,
-            y: height / 2 - 5,
+            y: 625,
             text: '0%',
             style: {
                 font: '18px monospace',
@@ -44,13 +44,25 @@ class Menu extends Phaser.Scene {
         });
 
         percentText.setOrigin(0.5, 0.5);
+        
+        var title = this.make.text({
+            x: width / 2,
+            y: height / 2 - 300,
+            text: 'WINTER ESCAPE',
+            style: {
+                font: '44px monospace',
+                fill: '#ffffff'
+            }
+        });
+        
+        title.setOrigin(0.5, 0.5);
 
         this.load.on('progress', function (value) {
             console.log(value);
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0xffffff, 1);
-            progressBar.fillRect(148, 490, 300 * value, 30);
+            progressBar.fillRect(148, 610, 300 * value, 30);
 
         });
 
@@ -66,10 +78,10 @@ class Menu extends Phaser.Scene {
             percentText.destroy();
         });
         
-        this.load.image('new', './assets/new-game.gif');
+        this.load.image('play', './assets/play.gif');
         this.load.image('options', './assets/options.gif');
-        this.load.image('about', './assets/about.gif');
-        this.load.image('background', './assets/background.png');
+        this.load.image('help', './assets/help.gif');
+        this.load.image('background', './assets/background.gif');
         this.load.image('player', './assets/player.png');
         this.load.image('bell', './assets/bell.png');
         this.load.image('pause', './assets/mute.png');
@@ -78,21 +90,19 @@ class Menu extends Phaser.Scene {
 
     }
 
-    create() {
-        
-        gameScene.backgroundColor = '#ffffff';
+    create() {    
 
-        let button1 = this.add.sprite(62, 240, 'new');
+        let button1 = this.add.sprite(43, 280, 'play');
         button1.setOrigin(0, 0);
         button1.setInteractive();
         button1.on('pointerdown', () => this.scene.start('Game'));
         
-        let button2 = this.add.sprite(62, 440, 'options');
+        let button2 = this.add.sprite(43, 480, 'options');
         button2.setOrigin(0, 0);
         button2.setInteractive();
         button2.on('pointerdown', () => this.scene.start('Options'));
         
-        let button3 = this.add.sprite(62, 640, 'about');
+        let button3 = this.add.sprite(43, 680, 'help');
         button3.setOrigin(0, 0);
         button3.setInteractive();
         button3.on('pointerdown', () => this.scene.start('Help'));
@@ -118,7 +128,7 @@ var gameOver;
 gameScene.create = function () {
 
     // create bg sprite
-    this.bg = this.add.tileSprite(360, 512, 600, 1024, 'background');
+    this.bg = this.add.tileSprite(300, 512, 600, 1024, 'background');
 
     // create the player
     this.player = this.physics.add.sprite(290, 920, 'player');
