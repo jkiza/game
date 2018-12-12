@@ -220,7 +220,7 @@ gameScene.create = function () {
         fill: '#ffffff'
     });
     
-    var mute = this.add.text(490, 990, 'Mute', {
+    var mute = this.add.text(500, 980, 'Mute', {
         font: '32px monospace',
         fill: '#ffffff'
     });
