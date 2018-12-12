@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
         var height = this.cameras.main.height;
         var loadingText = this.make.text({
             x: width / 2,
-            y: 570,
+            y: 470,
             text: 'Loading',
             style: {
                 font: '20px monospace',
@@ -47,7 +47,7 @@ class Menu extends Phaser.Scene {
         
         var title = this.make.text({
             x: width / 2,
-            y: height / 2 - 300,
+            y: height / 2 - 270,
             text: 'WINTER ESCAPE',
             style: {
                 font: '44px monospace',
