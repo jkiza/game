@@ -17,7 +17,7 @@ class Menu extends Phaser.Scene {
         var progressBar = this.add.graphics();
         var progressBox = this.add.graphics();
         progressBox.fillStyle(0x222222, 0.8);
-        progressBox.fillRect(138, 530, 320, 50);
+        progressBox.fillRect(138, 560, 320, 50);
 
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
@@ -35,7 +35,7 @@ class Menu extends Phaser.Scene {
 
         var percentText = this.make.text({
             x: width / 2,
-            y: 555,
+            y: 585,
             text: '0%',
             style: {
                 font: '18px monospace',
@@ -62,7 +62,7 @@ class Menu extends Phaser.Scene {
             percentText.setText(parseInt(value * 100) + '%');
             progressBar.clear();
             progressBar.fillStyle(0xffffff, 1);
-            progressBar.fillRect(148, 540, 300 * value, 30);
+            progressBar.fillRect(148, 570, 300 * value, 30);
 
         });
 
