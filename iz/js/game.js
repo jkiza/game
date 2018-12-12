@@ -23,7 +23,7 @@ class Menu extends Phaser.Scene {
         var height = this.cameras.main.height;
         var loadingText = this.make.text({
             x: width / 2,
-            y: 500,
+            y: 530,
             text: 'Loading',
             style: {
                 font: '20px monospace',
