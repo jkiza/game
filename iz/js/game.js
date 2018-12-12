@@ -304,7 +304,7 @@ pause.preload = function () {
     var height = this.cameras.main.height;
     var pauseText = this.make.text({
         x: width / 2,
-        y: height / 2 - 50,
+        y: height / 2 - 90,
         text: 'PAUSE',
         style: {
             font: '44px monospace',
