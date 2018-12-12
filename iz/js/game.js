@@ -348,13 +348,13 @@ options.preload = function() {
 
 options.create = function () {
 
-    let button = this.add.sprite(170, 500, 'mute');
+    let button = this.add.sprite(170, 480, 'mute');
     button.setScale(0.5);
     button.setOrigin(0, 0);
     button.setInteractive();
     button.on('pointerdown', () => music.destroy(true));
 
-    let button2 = this.add.sprite(170, 640, 'menu');
+    let button2 = this.add.sprite(170, 620, 'menu');
     button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
