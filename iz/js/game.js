@@ -221,6 +221,7 @@ gameScene.create = function () {
     });
 
     pause.setInteractive();
+    pause.on('pointerdown', () => music.stop());
     pause.on('pointerdown', () => this.scene.pause());
     pause.on('pointerdown', () => this.scene.start('Pause'));
 
