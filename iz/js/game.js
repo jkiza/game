@@ -215,12 +215,12 @@ gameScene.create = function () {
         fill: '#ffffff'
     });
 
-    var pause = this.add.text(480, 20, 'Pause', {
+    var pause = this.add.text(478, 20, 'Pause', {
         font: '32px monospace',
         fill: '#ffffff'
     });
     
-    var mute = this.add.text(500, 980, 'Mute', {
+    var mute = this.add.text(50, 980, 'Mute', {
         font: '32px monospace',
         fill: '#ffffff'
     });
