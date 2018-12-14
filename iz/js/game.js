@@ -296,7 +296,7 @@ gameScene.update = function () {
     let numBells = bells.length;
 
     // set the speed for bells
-    let bellSpeed = 4;
+    let bellSpeed = 10;
 
     // make the bells repeat
     for (let i = 0; i < numBells; i++) {
@@ -343,7 +343,7 @@ gameScene.jumpBell = function (player, bell) {
     scoreText.setText('Score: ' + score);
         
     // make bell disappear
-    bell.disableBody(false, true);
+    bell.disableBody(true, true);
 
 }
 
