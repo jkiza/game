@@ -6,7 +6,7 @@ var s;
 var ding;
 var music;
 var audio;
-var audio2;
+//var audio2;
 var score = 10000;
 var scoreText;
 
@@ -99,7 +99,7 @@ load.preload = function () {
     this.load.image('bell', './assets/bell.png');
     this.load.image('black', './assets/plain-black-background.jpg');
     this.load.audio('win', './assets/zapsplat_multimedia_game_tone_retro_positive_complete_bright_007_25930.mp3');
-    this.load.audio('lose', './assets/350986__cabled-mess__lose-c-01.wav');
+    //this.load.audio('lose', './assets/350986__cabled-mess__lose-c-01.wav');
     this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
 
 }
@@ -516,10 +516,10 @@ gameOver.preload = function () {
 gameOver.create = function () {
 
     // add a losing audio
-    audio2 = this.sound.add('lose');
+    //audio2 = this.sound.add('lose');
 
     // play
-    audio2.play();
+    //audio2.play();
 
     // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
