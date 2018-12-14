@@ -235,14 +235,14 @@ gameScene.create = function () {
     });
 
     // add label for the 'Pause' button in the top right corner
-    var pause = this.add.text(478, 20, 'Pause', {
-        font: '32px monospace',
+    var pause = this.add.text(455, 20, 'Pause', {
+        font: '40px monospace',
         fill: '#ffffff'
     });
 
     // add label for the 'Mute' button in the top right corner
-    var mute = this.add.text(500, 980, 'Mute', {
-        font: '32px monospace',
+    var mute = this.add.text(475, 970, 'Mute', {
+        font: '40px monospace',
         fill: '#ffffff'
     });
 
@@ -548,11 +548,11 @@ win.preload = function () {
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
 
-    // create a winning caption
+    // display score
     var winning = this.make.text({
         x: width / 2,
         y: height / 2 - 200,
-        text: 'YOU WON!',
+        text: 'YOUR SCORE: ' + score,
         style: {
             font: '44px monospace',
             fill: '#ffffff'
