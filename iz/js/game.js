@@ -99,7 +99,6 @@ load.preload = function () {
     this.load.image('bell', './assets/bell.png');
     this.load.image('pause', './assets/mute.png');
     this.load.image('black', './assets/plain-black-background.jpg');
-    this.load.audio('ding', './assets/66136__aji__ding30603-spedup.wav');
     this.load.audio('win', './assets/zapsplat_multimedia_game_tone_retro_positive_complete_bright_007_25930.mp3');
     this.load.audio('lose', './assets/350986__cabled-mess__lose-c-01.wav');
     this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
@@ -330,10 +329,6 @@ gameScene.update = function () {
 
 // function for jumping on the bells
 gameScene.jumpBell = function (player, bell) {
-    
-    // play ding
-    ding = this.sound.add('ding');
-    ding.play();
     
     // make the player follow our finger and jump
     gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 3000, 400);
