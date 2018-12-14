@@ -158,7 +158,6 @@ class Menu extends Phaser.Scene {
 
         // create an interactive 'Play' button
         let button1 = this.add.sprite(170, 390, 'play');
-        button1.setScale(0.5);
         button1.setOrigin(0, 0);
         button1.setInteractive();
         // when clicked, stop the music and load the 'Game' scene
@@ -167,7 +166,6 @@ class Menu extends Phaser.Scene {
 
         // create an interactive 'Options' button
         let button2 = this.add.sprite(170, 530, 'options');
-        button2.setScale(0.5);
         button2.setOrigin(0, 0);
         button2.setInteractive();
         // when clicked, load the 'Options' scene
@@ -175,7 +173,6 @@ class Menu extends Phaser.Scene {
 
         // create an interactive 'Help' button
         let button3 = this.add.sprite(170, 670, 'help');
-        button3.setScale(0.5);
         button3.setOrigin(0, 0);
         button3.setInteractive();
         // when clicked, load the 'Help' scene
@@ -376,7 +373,6 @@ pause.create = function () {
 
     // create a button for going back to main menu
     let button1 = this.add.sprite(170, 540, 'menu');
-    button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
     button1.on('pointerdown', () => music.stop());
@@ -412,7 +408,6 @@ options.create = function () {
 
     // create an interactive button
     let button = this.add.sprite(170, 480, 'mute');
-    button.setScale(0.5);
     button.setOrigin(0, 0);
     button.setInteractive();
     // when clicked, stop playing the music
@@ -420,7 +415,6 @@ options.create = function () {
 
     // create an interactive button
     let button2 = this.add.sprite(170, 620, 'menu');
-    button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
     // when clicked, stop playing the music and go back to main menu
@@ -474,8 +468,7 @@ help.preload = function () {
 help.create = function () {
 
     // create an interactive button
-    let button2 = this.add.sprite(170, 640, 'menu');
-    button2.setScale(0.5);
+    let button2 = this.add.sprite(170, 640, 'menu');\
     button2.setOrigin(0, 0);
     button2.setInteractive();
     //when clicked, stop playing the music and go back to main menu
@@ -532,7 +525,6 @@ gameOver.create = function () {
 
     // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
-    button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
     // when clicked, play the game again
@@ -540,7 +532,6 @@ gameOver.create = function () {
 
     // create an interactive button
     let button2 = this.add.sprite(170, 640, 'menu');
-    button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
     // when clicked, go back to main menu
@@ -609,7 +600,6 @@ win.create = function () {
 
     // create an interactive button
     let button1 = this.add.sprite(170, 530, 'play');
-    button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
     // when clicked, play the game again
@@ -617,7 +607,6 @@ win.create = function () {
 
     // create an interactive button
     let button2 = this.add.sprite(170, 640, 'menu');
-    button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
     // when clicked, go back to main menu
