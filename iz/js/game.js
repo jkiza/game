@@ -1,10 +1,13 @@
-// create a new scene
+// create a new game scene
 let gameScene = new Phaser.Scene('Game');
 
+// create a scene for loading assets
 let load = new Phaser.Scene('Load');
 
+// preload function of the 'Load' scene
 load.preload = function () {
 
+    // create a progress box and progress bar for loading
     var progressBar = this.add.graphics();
     var progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
@@ -12,6 +15,8 @@ load.preload = function () {
 
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
+
+    // create 'Loading' text above the progress bar
     var loadingText = this.make.text({
         x: width / 2,
         y: 530,
@@ -24,6 +29,7 @@ load.preload = function () {
 
     loadingText.setOrigin(0.5, 0.5);
 
+    // create a text showing loading progress in percents
     var percentText = this.make.text({
         x: width / 2,
         y: 585,
@@ -36,6 +42,7 @@ load.preload = function () {
 
     percentText.setOrigin(0.5, 0.5);
 
+    // create a caption with the tilte of the game on top of the screen
     var title = this.make.text({
         x: width / 2,
         y: height / 2 - 270,
@@ -48,6 +55,7 @@ load.preload = function () {
 
     title.setOrigin(0.5, 0.5);
 
+    // function listening for progress 'draws' the progress bar while the assets are loading
     this.load.on('progress', function (value) {
         console.log(value);
         percentText.setText(parseInt(value * 100) + '%');
@@ -57,10 +65,7 @@ load.preload = function () {
 
     });
 
-    this.load.on('fileprogress', function (file) {
-        console.log(file.src);
-    });
-
+    // when assets loaded, destroy the progress bar and caption
     this.load.on('complete', function () {
         console.log('complete');
         progressBar.destroy();
@@ -70,6 +75,11 @@ load.preload = function () {
 
     });
 
+    this.load.on('fileprogress', function (file) {
+        console.log(file.src);
+    });
+
+    // load assets
     this.load.image('menu', './assets/menu.gif');
     this.load.image('play', './assets/play.gif');
     this.load.image('options', './assets/options.gif');
@@ -84,14 +94,18 @@ load.preload = function () {
 
 }
 
+// update function of the 'Load' scene
 load.update = function () {
 
+    // start the 'Menu' scene
     this.scene.start('Menu');
 
 }
 
+// create 'Menu' scene
 class Menu extends Phaser.Scene {
 
+    // construct the scene
     constructor() {
 
         super('Menu');
@@ -101,11 +115,13 @@ class Menu extends Phaser.Scene {
 
     }
 
+    // preload function of the 'Menu' scene
     preload() {
 
         var width = this.cameras.main.width;
         var height = this.cameras.main.height;
 
+        // create a caption with the tilte of the game on top of the screen
         var title = this.make.text({
             x: width / 2,
             y: height / 2 - 270,
@@ -120,62 +136,62 @@ class Menu extends Phaser.Scene {
 
     }
 
+    // create function of the 'Menu' scene
     create() {
 
+        // add the music file
         music = this.sound.add('winter');
 
+        // play music
         music.play();
 
+        // create an interactive 'Play' button
         let button1 = this.add.sprite(170, 390, 'play');
         button1.setScale(0.5);
         button1.setOrigin(0, 0);
         button1.setInteractive();
+        // when clicked, stop the music and load the 'Game' scene
         button1.on('pointerdown', () => music.stop());
         button1.on('pointerdown', () => this.scene.start('Game'));
 
+        // create an interactive 'Options' button
         let button2 = this.add.sprite(170, 530, 'options');
         button2.setScale(0.5);
         button2.setOrigin(0, 0);
         button2.setInteractive();
+        // when clicked, load the 'Options' scene
         button2.on('pointerdown', () => this.scene.start('Options'));
 
+        // create an interactive 'Help' button
         let button3 = this.add.sprite(170, 670, 'help');
         button3.setScale(0.5);
         button3.setOrigin(0, 0);
         button3.setInteractive();
+        // when clicked, load the 'Help' scene
         button3.on('pointerdown', () => this.scene.start('Help'));
 
     }
 
 }
 
-// load assets
-gameScene.preload = function () {
-
-};
-
-var w = 600,
-    h = 1024;
+// initialize variables for music and score
 var s;
 var music;
 var score = 10000;
 var scoreText;
 
-// called once after the preload ends
+// create function of the 'Game' scene
 gameScene.create = function () {
 
-    // create bg sprite
+    // create the background
     this.bg = this.add.tileSprite(300, 512, 600, 1024, 'background');
 
-    // create the player
+    // create and scale the player and make it collide with world bounds
     this.player = this.physics.add.sprite(290, 920, 'player');
-
-    // we are reducing the width and height
     this.player.setScale(0.33);
-    //this.player.setBounce(5);
-
     this.player.setCollideWorldBounds(true);
 
+    // create bells falling from the sky, not colliding with the world bounds
     this.bells = this.physics.add.group({
         defaultKey: 'bell',
         bounceX: 0,
@@ -184,8 +200,10 @@ gameScene.create = function () {
 
     });
 
+    // make player stay in destined position at the beginning of the game
     this.player.body.allowGravity = false;
 
+    // create each bell
     let randomV = Phaser.Math.Between(-100, -300);
     this.bells.create(Phaser.Math.Between(80, 120), 0);
     this.bells.create(295, 300);
@@ -202,64 +220,75 @@ gameScene.create = function () {
     this.bells.create(Phaser.Math.Between(470, 530), -2350);
     this.bells.create(Phaser.Math.Between(70, 130), -2550);
 
-
     this.bells.children.iterate(function (child) {
-
-        //console.log(child);
+        // disable gravity on bells
         child.body.allowGravity = false;
 
     });
 
+    // add score in the top left corner
     scoreText = this.add.text(25, 20, 'Score: 10000', {
         font: '32px monospace',
         fill: '#ffffff'
     });
 
+    // add label for the 'Pause' button in the top right corner
     var pause = this.add.text(478, 20, 'Pause', {
         font: '32px monospace',
         fill: '#ffffff'
     });
-    
+
+    // add label for the 'Mute' button in the top right corner
     var mute = this.add.text(500, 980, 'Mute', {
         font: '32px monospace',
         fill: '#ffffff'
     });
-    
+
+    // when 'Mute' clicked, stop the music
     mute.setInteractive();
     mute.on('pointerdown', () => music.stop());
 
+    // when 'Pause' clicked, stop the music, pause the 'Game' scene and start 'Pause' scene
     pause.setInteractive();
     pause.on('pointerdown', () => music.stop());
     pause.on('pointerdown', () => this.scene.pause());
     pause.on('pointerdown', () => this.scene.start('Pause'));
 
-    //button4.on('pointerdown', () => music.stop());
-
+    // add the music file
     music = this.sound.add('winter');
 
+    // play music
     music.play();
 
+    // add overlap with bells for the player
     this.physics.add.overlap(this.player, this.bells, this.jumpBell, null, this);
 
 };
 
+// update function of the 'Game' scene
 gameScene.update = function () {
-
     console.log(this.input.activePointer.x);
 
+    // make background scroll endlessly
     this.bg.tilePositionY -= 3;
 
+    // make the player follow our finger in certain speed
     if (this.input.activePointer.x > this.player.x) {
         this.player.x += 6;
     } else if (this.input.activePointer.x < this.player.x) {
         this.player.x -= 6;
     }
 
+    // returns an array of all the children
     let bells = this.bells.getChildren();
+
+    // variable for the number of the bells
     let numBells = bells.length;
 
+    // set the speed for bells
     let bellSpeed = 4;
 
+    // make the bells repeat
     for (let i = 0; i < numBells; i++) {
         let bellY = bells[i].y;
         if (bellY > 3000) {
@@ -268,14 +297,17 @@ gameScene.update = function () {
         bells[i].y += bellSpeed;
     }
 
+    // disable gravity on bells
     this.bells.allowGravity = false;
 
+    // if the player falls down, stop the music and load 'Game Over' scene
     if (this.player.y > 950) {
         music.stop();
         this.scene.start('Game Over');
 
     }
 
+    // if the player makes it to the top, stop the music and load 'Win' scene
     if (this.player.y < 50) {
         music.stop();
         this.scene.start('Win');
@@ -284,24 +316,33 @@ gameScene.update = function () {
 
 };
 
+// function for jumping on the bells
 gameScene.jumpBell = function () {
 
+    // make the player follow our finger and jump
     gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 1000, 400);
 
+    // disable gravity on the player
     this.player.body.allowGravity = true;
 
+    // decrease the score by 10 on every jump
     score -= 10;
 
+    // display the score
     scoreText.setText('Score: ' + score);
 
 }
 
+// create a scene for pausing the game
 let pause = new Phaser.Scene('Pause');
 
+// preload function of the 'Pause' scene
 pause.preload = function () {
-    
+
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
+
+    // create a 'Pause' label
     var pauseText = this.make.text({
         x: width / 2,
         y: height / 2 - 90,
@@ -311,13 +352,15 @@ pause.preload = function () {
             fill: '#ffffff'
         }
     });
-    
+
     pauseText.setOrigin(0.5, 0.5);
 
 }
 
+// create function of the 'Pause' scene
 pause.create = function () {
 
+    // create a button for going back to main menu
     let button1 = this.add.sprite(170, 540, 'menu');
     button1.setScale(0.5);
     button1.setOrigin(0, 0);
@@ -327,12 +370,16 @@ pause.create = function () {
 
 }
 
+// create an 'Options' scene
 let options = new Phaser.Scene('Options');
 
-options.preload = function() {
-    
+// preload function of the 'Options' scene
+options.preload = function () {
+
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
+
+    // create 'Options' label
     var optionsText = this.make.text({
         x: width / 2,
         y: height / 2 - 200,
@@ -342,35 +389,45 @@ options.preload = function() {
             fill: '#ffffff'
         }
     });
-    
+
     optionsText.setOrigin(0.5, 0.5);
 }
 
+// create function of the 'Options' scene
 options.create = function () {
 
+    // create an interactive button
     let button = this.add.sprite(170, 480, 'mute');
     button.setScale(0.5);
     button.setOrigin(0, 0);
     button.setInteractive();
+    // when clicked, stop playing the music
     button.on('pointerdown', () => music.destroy(true));
 
+    // create an interactive button
     let button2 = this.add.sprite(170, 620, 'menu');
     button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
+    // when clicked, stop playing the music and go back to main menu
     button2.on('pointerdown', () => music.stop());
     button2.on('pointerdown', () => this.scene.start('Menu'));
 
 }
 
+// create a 'Help' scene
 let help = new Phaser.Scene('Help');
 
+// preload function of the 'Help' scene
 help.preload = function () {
+
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
+
+    // create a 'Help' label
     var helpText = this.make.text({
         x: width / 2,
-        y: height / 2 - 200,
+        y: height / 2 - 300,
         text: 'HELP',
         style: {
             font: '44px monospace',
@@ -379,29 +436,49 @@ help.preload = function () {
     });
 
     helpText.setOrigin(0.5, 0.5);
+
+    // create a help text
+    var helpText = this.make.text({
+        x: width / 2,
+        y: height / 2,
+        text: 'Welcome to my game! In order to play, drag your finger across the screen and the bunny fill follow. To win, try to get to the top of the screen. The less time you spend on bells and the quicker you get there, the more points you will have. Be careful, if you fall down, you will lose!',
+        style: {
+            font: '32px monospace',
+            fill: '#ffffff',
+            align: 'center',
+            wordWrap: { width: 450 }
+        }
+    });
+
+    helpText.setOrigin(0.5, 0.5);
+
 }
 
+// create function of the 'Help' scene
 help.create = function () {
 
-    let button2 = this.add.sprite(170, 640, 'menu');
+    // create an interactive button
+    let button2 = this.add.sprite(170, 810, 'menu');
     button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
+    //when clicked, stop playing the music and go back to main menu
     button2.on('pointerdown', () => music.stop());
     button2.on('pointerdown', () => this.scene.start('Menu'));
 
 }
 
-
-
+// create a scene for when losing the game
 let gameOver = new Phaser.Scene('Game Over');
 
+// preload function of the 'Game Over' scene
 gameOver.preload = function () {
 
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
-    var losing = this.make.text({
 
+    // create a losing caption
+    var losing = this.make.text({
         x: width / 2,
         y: height / 2 - 200,
         text: 'YOU LOST.',
@@ -413,8 +490,8 @@ gameOver.preload = function () {
 
     losing.setOrigin(0.5, 0.5);
 
+    // create a second caption
     var losing2 = this.make.text({
-
         x: width / 2,
         y: height / 2 - 150,
         text: 'TRY AGAIN?',
@@ -428,29 +505,37 @@ gameOver.preload = function () {
 
 }
 
+// create function of the 'Game Over' scene
 gameOver.create = function () {
 
+    // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
     button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
+    // when clicked, play the game again
     button1.on('pointerdown', () => this.scene.start('Game'));
 
+    // create an interactive button
     let button2 = this.add.sprite(170, 640, 'menu');
     button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
+    // when clicked, go back to main menu
     button2.on('pointerdown', () => this.scene.start('Menu'));
 
 }
 
+// create a scene for winning
 let win = new Phaser.Scene('Win');
 
+// preload function of the 'Win' scene
 win.preload = function () {
 
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
 
+    // create a winning caption
     var winning = this.make.text({
         x: width / 2,
         y: height / 2 - 200,
@@ -463,6 +548,7 @@ win.preload = function () {
 
     winning.setOrigin(0.5, 0.5);
 
+    // create a second caption
     var winning2 = this.make.text({
         x: width / 2,
         y: height / 2 - 150,
@@ -477,18 +563,23 @@ win.preload = function () {
 
 }
 
+// create function of the 'Win' scene
 win.create = function () {
 
+    // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
     button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
+    // when clicked, play the game again
     button1.on('pointerdown', () => this.scene.start('Game'));
 
+    // create an interactive button
     let button2 = this.add.sprite(170, 640, 'menu');
     button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
+    // when clicked, go back to main menu
     button2.on('pointerdown', () => this.scene.start('Menu'));
 
 }
@@ -496,67 +587,24 @@ win.create = function () {
 // set the configuration of the game
 let config = {
     type: Phaser.AUTO, // Phaser will use WebGL if available, if not it will use Canvas
+    // width and height of the game screen
     width: 600,
     height: 1024,
     scene: gameScene,
+    // physics library
     physics: {
         default: 'arcade',
         arcade: {
+            // set gravity
             gravity: {
                 y: 800
             },
             debug: false
         }
     },
+    // determine all the scenes
     scene: [load, Menu, options, help, gameScene, win, gameOver, pause]
 };
 
 // create a new game, pass the configuration
 let game = new Phaser.Game(config);
-
-//class Options extends Phaser.Scene {
-//
-//    constructor() {
-//
-//        super('Options');
-//
-//        this.active;
-//        this.currentScene;
-//
-//    }
-//
-//    preload() {
-//
-//        var width = this.cameras.main.width;
-//        var height = this.cameras.main.height;
-//        var optionsText = this.make.text({
-//            x: width / 2,
-//            y: height / 2 - 200,
-//            text: 'OPTIONS',
-//            style: {
-//                font: '44px monospace',
-//                fill: '#ffffff'
-//            }
-//        });
-//
-//        optionsText.setOrigin(0.5, 0.5);
-//
-//    }
-//
-//    create() {
-//
-//        let button = this.add.sprite(170, 500, 'mute');
-//        button.setScale(0.5);
-//        button.setOrigin(0, 0);
-//        button.setInteractive();
-//        button.on('pointerdown', () => music.destroy(true));
-//
-//        let button2 = this.add.sprite(170, 640, 'menu');
-//        button2.setScale(0.5);
-//        button2.setOrigin(0, 0);
-//        button2.setInteractive();
-//        button2.on('pointerdown', () => music.stop());
-//        button2.on('pointerdown', () => this.scene.start('Menu'));
-//
-//    }
-//}
