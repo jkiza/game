@@ -296,6 +296,7 @@ gameScene.update = function () {
         let bellY = bells[i].y;
         if (bellY > 3000) {
             bells[i].y = -30;
+            bells[i].enableBody(false, 1, 1, true, true);
         }
         bells[i].y += bellSpeed;
     }
@@ -333,6 +334,8 @@ gameScene.jumpBell = function () {
 
     // display the score
     scoreText.setText('Score: ' + score);
+    
+    bell.disableBody(false, true);
 
 }
 
