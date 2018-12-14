@@ -235,13 +235,13 @@ gameScene.create = function () {
     });
 
     // add label for the 'Pause' button in the top right corner
-    var pause = this.add.text(455, 20, 'Pause', {
+    var pause = this.add.text(452, 20, 'Pause', {
         font: '40px monospace',
         fill: '#ffffff'
     });
 
     // add label for the 'Mute' button in the top right corner
-    var mute = this.add.text(475, 970, 'Mute', {
+    var mute = this.add.text(478, 967, 'Mute', {
         font: '40px monospace',
         fill: '#ffffff'
     });
