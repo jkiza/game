@@ -322,7 +322,7 @@ gameScene.update = function () {
 };
 
 // function for jumping on the bells
-gameScene.jumpBell = function () {
+gameScene.jumpBell = function (player, bell) {
 //player, bell
     
     // make the player follow our finger and jump
