@@ -1,5 +1,14 @@
-// create a new game scene
-let gameScene = new Phaser.Scene('Game');
+// initialize variables
+var game;
+var gameWidth = 600;
+var gameHeight = 1024;
+var s;
+var ding;
+var music;
+var audio;
+var audio2;
+var score = 10000;
+var scoreText;
 
 // create a scene for loading assets
 let load = new Phaser.Scene('Load');
@@ -90,6 +99,7 @@ load.preload = function () {
     this.load.image('bell', './assets/bell.png');
     this.load.image('pause', './assets/mute.png');
     this.load.image('black', './assets/plain-black-background.jpg');
+    this.load.audio('ding', './assets/66136__aji__ding30603-spedup.wav');
     this.load.audio('win', './assets/zapsplat_multimedia_game_tone_retro_positive_complete_bright_007_25930.mp3');
     this.load.audio('lose', './assets/350986__cabled-mess__lose-c-01.wav');
     this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
@@ -176,11 +186,8 @@ class Menu extends Phaser.Scene {
 
 }
 
-// initialize variables for music and score
-var s;
-var music;
-var score = 10000;
-var scoreText;
+// create a new game scene
+let gameScene = new Phaser.Scene('Game');
 
 // create function of the 'Game' scene
 gameScene.create = function () {
@@ -205,22 +212,23 @@ gameScene.create = function () {
     // make player stay in destined position at the beginning of the game
     this.player.body.allowGravity = false;
 
-    // create each bell
+    // create each bell2829
     let randomV = Phaser.Math.Between(-100, -300);
-    this.bells.create(Phaser.Math.Between(80, 120), 0);
-    this.bells.create(295, 300);
-    this.bells.create(Phaser.Math.Between(460, 520), -200);
-    this.bells.create(Phaser.Math.Between(80, 140), -450);
-    this.bells.create(Phaser.Math.Between(460, 520), -650);
-    this.bells.create(Phaser.Math.Between(270, 330), -900);
-    this.bells.create(Phaser.Math.Between(80, 140), -1100);
-    this.bells.create(Phaser.Math.Between(270, 330), -1300);
-    this.bells.create(Phaser.Math.Between(460, 520), -1450);
-    this.bells.create(Phaser.Math.Between(270, 330), -1700);
-    this.bells.create(Phaser.Math.Between(460, 520), -1900);
-    this.bells.create(Phaser.Math.Between(80, 140), -2100);
-    this.bells.create(Phaser.Math.Between(460, 520), -2350);
-    this.bells.create(Phaser.Math.Between(80, 140), -2550);
+    this.bells.create(295, 250);
+    this.bells.create(Phaser.Math.Between(75, 125), 50);
+    this.bells.create(Phaser.Math.Between(475, 525), -150);
+    this.bells.create(Phaser.Math.Between(75, 125), -350);
+    this.bells.create(Phaser.Math.Between(275, 325), -540);
+    this.bells.create(Phaser.Math.Between(475, 525), -730);
+    this.bells.create(Phaser.Math.Between(75, 125), -950);
+    this.bells.create(Phaser.Math.Between(275, 325), -1150);
+    this.bells.create(Phaser.Math.Between(475, 525), -1370);
+    this.bells.create(Phaser.Math.Between(275, 325), -1560);
+    this.bells.create(Phaser.Math.Between(475, 525), -1750);
+    this.bells.create(Phaser.Math.Between(275, 325), -1950);
+    this.bells.create(Phaser.Math.Between(75, 125), -2200);
+    this.bells.create(Phaser.Math.Between(475, 525), -2400);
+    this.bells.create(Phaser.Math.Between(75, 125), -2600);
 
     this.bells.children.iterate(function (child) {
         // disable gravity on bells
@@ -235,13 +243,13 @@ gameScene.create = function () {
     });
 
     // add label for the 'Pause' button in the top right corner
-    var pause = this.add.text(452, 20, 'Pause', {
+    var pause = this.add.text(448, 20, 'Pause', {
         font: '40px monospace',
         fill: '#ffffff'
     });
 
     // add label for the 'Mute' button in the top right corner
-    var mute = this.add.text(478, 967, 'Mute', {
+    var mute = this.add.text(475, 960, 'Mute', {
         font: '40px monospace',
         fill: '#ffffff'
     });
@@ -302,7 +310,7 @@ gameScene.update = function () {
     }
 
     // disable gravity on bells
-    this.bells.allowGravity = false;
+    //this.bells.allowGravity = false;
 
     // if the player falls down, stop the music and load 'Game Over' scene
     if (this.player.y > 950) {
@@ -322,9 +330,13 @@ gameScene.update = function () {
 
 // function for jumping on the bells
 gameScene.jumpBell = function (player, bell) {
-
+    
+    // play ding
+    ding = this.sound.add('ding');
+    ding.play();
+    
     // make the player follow our finger and jump
-    gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 1000, 470);
+    gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 3000, 400);
 
     // disable gravity on the player
     this.player.body.allowGravity = true;
@@ -334,7 +346,8 @@ gameScene.jumpBell = function (player, bell) {
 
     // display the score
     scoreText.setText('Score: ' + score);
-    
+        
+    // make bell disappear
     bell.disableBody(false, true);
 
 }
@@ -479,8 +492,6 @@ help.create = function () {
 // create a scene for when losing the game
 let gameOver = new Phaser.Scene('Game Over');
 
-var audio2;
-
 // preload function of the 'Game Over' scene
 gameOver.preload = function () {
 
@@ -544,8 +555,6 @@ gameOver.create = function () {
 
 // create a scene for winning
 let win = new Phaser.Scene('Win');
-
-var audio;
 
 // preload function of the 'Win' scene
 win.preload = function () {
@@ -621,10 +630,6 @@ win.create = function () {
 
 }
 
-var game;
-var gameWidth = 600;
-var gameHeight = 1024;
-
 // set the configuration of the game
 window.onload = function () {
     let config = {
@@ -639,7 +644,7 @@ window.onload = function () {
             arcade: {
                 // set gravity
                 gravity: {
-                    y: 800
+                    y: 780
                 },
                 debug: false
             }
