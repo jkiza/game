@@ -328,7 +328,7 @@ gameScene.update = function () {
 gameScene.jumpBell = function (player, bell) {
     
     // make the player follow our finger and jump
-    gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 3000, 400);
+    gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 1000, 500);
 
     // disable gravity on the player
     this.player.body.allowGravity = true;
