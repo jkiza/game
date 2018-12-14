@@ -209,18 +209,18 @@ gameScene.create = function () {
     let randomV = Phaser.Math.Between(-100, -300);
     this.bells.create(Phaser.Math.Between(80, 120), 0);
     this.bells.create(295, 300);
-    this.bells.create(Phaser.Math.Between(470, 530), -200);
-    this.bells.create(Phaser.Math.Between(70, 130), -450);
-    this.bells.create(Phaser.Math.Between(470, 530), -650);
+    this.bells.create(Phaser.Math.Between(460, 520), -200);
+    this.bells.create(Phaser.Math.Between(80, 140), -450);
+    this.bells.create(Phaser.Math.Between(460, 520), -650);
     this.bells.create(Phaser.Math.Between(270, 330), -900);
-    this.bells.create(Phaser.Math.Between(70, 130), -1100);
+    this.bells.create(Phaser.Math.Between(80, 140), -1100);
     this.bells.create(Phaser.Math.Between(270, 330), -1300);
-    this.bells.create(Phaser.Math.Between(470, 530), -1450);
+    this.bells.create(Phaser.Math.Between(460, 520), -1450);
     this.bells.create(Phaser.Math.Between(270, 330), -1700);
-    this.bells.create(Phaser.Math.Between(470, 530), -1900);
-    this.bells.create(Phaser.Math.Between(70, 130), -2100);
-    this.bells.create(Phaser.Math.Between(470, 530), -2350);
-    this.bells.create(Phaser.Math.Between(70, 130), -2550);
+    this.bells.create(Phaser.Math.Between(460, 520), -1900);
+    this.bells.create(Phaser.Math.Between(80, 140), -2100);
+    this.bells.create(Phaser.Math.Between(460, 520), -2350);
+    this.bells.create(Phaser.Math.Between(80, 140), -2550);
 
     this.bells.children.iterate(function (child) {
         // disable gravity on bells
@@ -486,7 +486,7 @@ gameOver.preload = function () {
     var losing = this.make.text({
         x: width / 2,
         y: height / 2 - 200,
-        text: 'YOU LOST.',
+        text: 'YOU LOST',
         style: {
             font: '40px monospace',
             fill: '#ffffff'
@@ -548,11 +548,11 @@ win.preload = function () {
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
 
-    // display score
+    // screate a winning caption
     var winning = this.make.text({
         x: width / 2,
-        y: height / 2 - 200,
-        text: 'YOUR SCORE: ' + score,
+        y: height / 2 - 220,
+        text: 'WELL DONE!',
         style: {
             font: '44px monospace',
             fill: '#ffffff'
@@ -560,11 +560,24 @@ win.preload = function () {
     });
 
     winning.setOrigin(0.5, 0.5);
+    
+    // display score
+    var winning1 = this.make.text({
+        x: width / 2,
+        y: height / 2 - 170,
+        text: 'SCORE: ' + score,
+        style: {
+            font: '44px monospace',
+            fill: '#ffffff'
+        }
+    });
+
+    winning1.setOrigin(0.5, 0.5);
 
     // create a second caption
     var winning2 = this.make.text({
         x: width / 2,
-        y: height / 2 - 150,
+        y: height / 2 - 120,
         text: 'PLAY AGAIN?',
         style: {
             font: '44px monospace',
@@ -586,7 +599,7 @@ win.create = function () {
     audio.play();
 
     // create an interactive button
-    let button1 = this.add.sprite(170, 500, 'play');
+    let button1 = this.add.sprite(170, 530, 'play');
     button1.setScale(0.5);
     button1.setOrigin(0, 0);
     button1.setInteractive();
