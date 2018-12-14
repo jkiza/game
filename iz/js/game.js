@@ -321,7 +321,7 @@ gameScene.update = function () {
 };
 
 // function for jumping on the bells
-gameScene.jumpBell = function () {
+gameScene.jumpBell = function (player, bell) {
 
     // make the player follow our finger and jump
     gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 1000, 400);
