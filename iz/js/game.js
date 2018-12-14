@@ -468,7 +468,7 @@ help.preload = function () {
 help.create = function () {
 
     // create an interactive button
-    let button2 = this.add.sprite(170, 640, 'menu');\
+    let button2 = this.add.sprite(170, 640, 'menu');
     button2.setOrigin(0, 0);
     button2.setInteractive();
     //when clicked, stop playing the music and go back to main menu
