@@ -296,7 +296,7 @@ gameScene.update = function () {
     let numBells = bells.length;
 
     // set the speed for bells
-    let bellSpeed = 10;
+    let bellSpeed = 4;
 
     // make the bells repeat
     for (let i = 0; i < numBells; i++) {
