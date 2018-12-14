@@ -269,7 +269,7 @@ gameScene.create = function () {
 
 // update function of the 'Game' scene
 gameScene.update = function () {
-    
+
     console.log(this.input.activePointer.x);
 
     // make background scroll endlessly
@@ -449,7 +449,9 @@ help.preload = function () {
             font: '24px monospace',
             fill: '#ffffff',
             align: 'center',
-            wordWrap: { width: 450 }
+            wordWrap: {
+                width: 450
+            }
         }
     });
 
@@ -515,10 +517,10 @@ gameOver.create = function () {
 
     // add a losing audio
     audio2 = this.sound.add('lose');
-    
+
     // play
     audio2.play();
-    
+
     // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
     button1.setScale(0.5);
@@ -560,7 +562,7 @@ win.preload = function () {
     });
 
     winning.setOrigin(0.5, 0.5);
-    
+
     // display score
     var winning1 = this.make.text({
         x: width / 2,
@@ -591,10 +593,10 @@ win.preload = function () {
 
 // create function of the 'Win' scene
 win.create = function () {
-    
+
     // add winning audio
     audio = this.sound.add('win');
-    
+
     // play
     audio.play();
 
@@ -616,27 +618,55 @@ win.create = function () {
 
 }
 
+var game;
+var gameWidth = 600;
+var gameHeight = 1024;
+
 // set the configuration of the game
-let config = {
-    type: Phaser.AUTO, // Phaser will use WebGL if available, if not it will use Canvas
-    // width and height of the game screen
-    width: 600,
-    height: 1024,
-    scene: gameScene,
-    // physics library
-    physics: {
-        default: 'arcade',
-        arcade: {
-            // set gravity
-            gravity: {
-                y: 800
-            },
-            debug: false
-        }
-    },
-    // determine all the scenes
-    scene: [load, Menu, options, help, gameScene, win, gameOver, pause]
+window.onload = function () {
+    let config = {
+        type: Phaser.CANVAS,
+        // width and height of the game screen
+        width: gameWidth,
+        height: gameHeight,
+        scene: gameScene,
+        // physics library
+        physics: {
+            default: 'arcade',
+            arcade: {
+                // set gravity
+                gravity: {
+                    y: 800
+                },
+                debug: false
+            }
+        },
+        // determine all the scenes
+        scene: [load, Menu, options, help, gameScene, win, gameOver, pause]
+    };
+    
+    // create the game using the configuration
+    game = new Phaser.Game(config);
+    
+    // go full screen
+    resize();
+    window.addEventListener("resize", resize, false);
 };
 
-// create a new game, pass the configuration
-let game = new Phaser.Game(config);
+// function for going full screen
+function resize() {
+    
+    var canvas = document.querySelector("canvas");
+    var windowWidth = window.innerWidth;
+    var windowHeight = window.innerHeight;
+    var windowRatio = windowWidth / windowHeight;
+    var gameRatio = game.config.width / game.config.height;
+    if (windowRatio < gameRatio) {
+        canvas.style.width = windowWidth + "px";
+        canvas.style.height = (windowWidth / gameRatio) + "px";
+    } else {
+        canvas.style.width = (windowHeight * gameRatio) + "px";
+        canvas.style.height = windowHeight + "px";
+    }
+    
+}
