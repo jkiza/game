@@ -97,7 +97,6 @@ load.preload = function () {
     this.load.image('background', './assets/background.gif');
     this.load.image('player', './assets/player.png');
     this.load.image('bell', './assets/bell.png');
-    this.load.image('pause', './assets/mute.png');
     this.load.image('black', './assets/plain-black-background.jpg');
     this.load.audio('win', './assets/zapsplat_multimedia_game_tone_retro_positive_complete_bright_007_25930.mp3');
     this.load.audio('lose', './assets/350986__cabled-mess__lose-c-01.wav');
@@ -273,8 +272,6 @@ gameScene.create = function () {
 
 // update function of the 'Game' scene
 gameScene.update = function () {
-
-    console.log(this.input.activePointer.x);
 
     // make background scroll endlessly
     this.bg.tilePositionY -= 3;
