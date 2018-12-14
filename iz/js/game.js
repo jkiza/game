@@ -300,7 +300,7 @@ gameScene.update = function () {
         let bellY = bells[i].y;
         if (bellY > 3000) {
             bells[i].y = -30;
-            bells[i].enableBody(false, 1, 1, true, true);
+            //bells[i].enableBody(false, 1, 1, true, true);
         }
         bells[i].y += bellSpeed;
     }
@@ -325,7 +325,8 @@ gameScene.update = function () {
 };
 
 // function for jumping on the bells
-gameScene.jumpBell = function (player, bell) {
+gameScene.jumpBell = function () {
+//player, bell
     
     // make the player follow our finger and jump
     gameScene.physics.moveTo(this.player, this.input.activePointer.downX, this.player.y - 1000, 500);
@@ -340,7 +341,7 @@ gameScene.jumpBell = function (player, bell) {
     scoreText.setText('Score: ' + score);
         
     // make bell disappear
-    bell.disableBody(true, true);
+    //bell.disableBody(true, true);
 
 }
 
