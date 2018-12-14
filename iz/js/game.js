@@ -90,6 +90,8 @@ load.preload = function () {
     this.load.image('bell', './assets/bell.png');
     this.load.image('pause', './assets/mute.png');
     this.load.image('black', './assets/plain-black-background.jpg');
+    this.load.audio('win', './assets/zapsplat_multimedia_game_tone_retro_positive_complete_bright_007_25930.mp3');
+    this.load.audio('lose', './assets/350986__cabled-mess__lose-c-01.wav');
     this.load.audio('winter', './assets/nicolai-heidlas-winter-sunshine.mp3');
 
 }
@@ -267,6 +269,7 @@ gameScene.create = function () {
 
 // update function of the 'Game' scene
 gameScene.update = function () {
+    
     console.log(this.input.activePointer.x);
 
     // make background scroll endlessly
@@ -427,7 +430,7 @@ help.preload = function () {
     // create a 'Help' label
     var helpText = this.make.text({
         x: width / 2,
-        y: height / 2 - 300,
+        y: height / 2 - 270,
         text: 'HELP',
         style: {
             font: '44px monospace',
@@ -440,10 +443,10 @@ help.preload = function () {
     // create a help text
     var helpText = this.make.text({
         x: width / 2,
-        y: height / 2,
+        y: height / 2 - 70,
         text: 'Welcome to my game! In order to play, drag your finger across the screen and the bunny fill follow. To win, try to get to the top of the screen. The less time you spend on bells and the quicker you get there, the more points you will have. Be careful, if you fall down, you will lose!',
         style: {
-            font: '32px monospace',
+            font: '24px monospace',
             fill: '#ffffff',
             align: 'center',
             wordWrap: { width: 450 }
@@ -458,7 +461,7 @@ help.preload = function () {
 help.create = function () {
 
     // create an interactive button
-    let button2 = this.add.sprite(170, 810, 'menu');
+    let button2 = this.add.sprite(170, 640, 'menu');
     button2.setScale(0.5);
     button2.setOrigin(0, 0);
     button2.setInteractive();
@@ -470,6 +473,8 @@ help.create = function () {
 
 // create a scene for when losing the game
 let gameOver = new Phaser.Scene('Game Over');
+
+var audio2;
 
 // preload function of the 'Game Over' scene
 gameOver.preload = function () {
@@ -508,6 +513,12 @@ gameOver.preload = function () {
 // create function of the 'Game Over' scene
 gameOver.create = function () {
 
+    // add a losing audio
+    audio2 = this.sound.add('lose');
+    
+    // play
+    audio2.play();
+    
     // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
     button1.setScale(0.5);
@@ -528,6 +539,8 @@ gameOver.create = function () {
 
 // create a scene for winning
 let win = new Phaser.Scene('Win');
+
+var audio;
 
 // preload function of the 'Win' scene
 win.preload = function () {
@@ -565,6 +578,12 @@ win.preload = function () {
 
 // create function of the 'Win' scene
 win.create = function () {
+    
+    // add winning audio
+    audio = this.sound.add('win');
+    
+    // play
+    audio.play();
 
     // create an interactive button
     let button1 = this.add.sprite(170, 500, 'play');
