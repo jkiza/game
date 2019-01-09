@@ -6,7 +6,6 @@ var s;
 var ding;
 var music;
 var audio;
-//var audio2;
 var score = 10000;
 var scoreText;
 
