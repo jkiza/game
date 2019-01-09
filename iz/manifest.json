@@ -1,7 +1,4 @@
 {
-    "short_name": "Winter Escape",
-    "name": "Winter Escape - Izzy's game",
-    "start_url": "/index.html",
-    "display": "standalone",
-    "orientation": "landscape"
+    "name": "Winter Escape",
+    "display": "standalone"
   }
